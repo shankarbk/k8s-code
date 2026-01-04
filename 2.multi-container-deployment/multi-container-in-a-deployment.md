@@ -13,13 +13,14 @@ Below is the same multi-container example, but wrapped inside a Deployment (reco
     Each replica = one Pod with two containers
 
 Deployment
+```
  ├── Pod-1
  │    ├── nginx
  │    └── busybox
  ├── Pod-2
  │    ├── nginx
  │    └── busybox
-
+```
 ✔ Shared Volume Per Pod
     emptyDir is Pod-scoped
     Each Pod has its own isolated shared volume
