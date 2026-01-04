@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-container-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: multi-container-demo
+  template:
+    metadata:
+      labels:
+        app: multi-container-demo
+    spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
+
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/share/nginx/html
+
+        - name: busybox-container
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              while true; do
+                echo "Hello from BusyBox at $(date)" >> /logs/index.html;
+                sleep 5;
+              done
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /logs
