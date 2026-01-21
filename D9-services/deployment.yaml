@@ -1,0 +1,36 @@
+# To check which version of api to be used for deployment controller
+# run the command: kubectl explain deployment
+# Till 'spec' block its the Deployment configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx
+    maintainer: shankar-deployment
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-nginx-pod-deploy
+      maintainer: shankar-deployment
+
+  template:
+    metadata:
+      labels:
+        app: my-nginx-pod-deploy
+        maintainer: shankar-deployment
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 8085
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   limits:
+          #     cpu: 500m
+          #     memory: 512Mi

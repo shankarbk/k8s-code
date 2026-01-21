@@ -1,0 +1,29 @@
+# To check which version of api to be used for deployment
+# run the command: kubectl explain deployment
+# Till 'spec' block its the ReplicationController configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx
+    maintainer: shankar-deployment
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-nginx-pod
+      maintainer: shankar-deployment
+
+  template:
+    metadata:
+      labels:
+        app: my-nginx-pod
+        maintainer: shankar-deployment
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80

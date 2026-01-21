@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-without-config-map
+  labels:
+    app: env-variable-demo-pod
+    maintainer: shankar-multi-container
+spec:
+  containers:
+  - name: my-app-container
+    image: busybox:latest
+    env:
+    - name: FIRST_NAME
+      value: "Shankar"
+    command: ['sh', '-c', 'echo The app is running... && sleep 3600']
+
+# we have created an environment variable FIRST_NAME with value "Shankar" directly in the pod spec without using a config map.
+# The container runs a simple BusyBox image that prints "The app is running..." and then sleeps for 3600 seconds (1 hour).
+# Create the above pod using the command: kubectl apply -f without-config-map.yaml
+# to check the environment variable inside the container, use the following command:
+
+# kubectl exec -it pod-without-config-map -- printenv FIRST_NAME
+# This command will execute the printenv FIRST_NAME command inside the container of the pod named pod-without-config-map.
+
+  # OR
+
+# exec into the container using:
+# kubectl exec -it pod-without-config-map -- sh
+# and then run the command:
+# printenv FIRST_NAME OR echo $FIRST_NAME

@@ -1,0 +1,31 @@
+# rs - replication set controller
+# To check which version of api to be used for replication controller
+# run the command: kubectl explain rs
+# Till 'spec' block its the ReplicationController configuration
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-rs
+  labels:
+    app: nginx
+    maintainer: shankar-rs
+# from now, its the Pod configuration
+spec:
+  template:
+    metadata:
+      labels: 
+        app: nginx-server-rs
+        maintainer: shankar # matching label with selector block
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        # ports:
+        # - containerPort: 80
+# if we added selector block, and mentioned replicas to 3 as below,
+# then 2 pods will be created here, and 1 pod will be added from matached labels from existing pods from cluster
+# which is created from this file first-pod-nginx.yaml
+  replicas: 3
+  selector:
+    matchLabels:
+      maintainer: shankar # matching label with template block

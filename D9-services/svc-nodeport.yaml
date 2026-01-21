@@ -1,0 +1,18 @@
+#  kubectl explain svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+  labels:
+    app: my-nodeport-app
+    maintainer: shankar-nodeport
+spec:
+  type: NodePort
+  ports:
+  - port: 8082
+    targetPort: 8085
+    # we have configured this in D6 learning, Because The Kind cluster doesnot exposes NodePort by default
+    # This port(30001) should match with the port configured in kind cluster configuration file (D6-create-multiple-cluster\kind-cluster.yaml)
+    nodePort: 30001
+  selector:
+    app: my-nginx-pod-deploy

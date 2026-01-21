@@ -1,0 +1,29 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+# This Horizontal Pod Autoscaler (HPA) configuration automatically scales the number of replicas
+# of the 'php-apache' Deployment based on CPU utilization. It maintains a minimum of 1 replica
+# and can scale up to a maximum of 10 replicas. The HPA targets an average CPU utilization of 50%,
+# meaning that if the average CPU usage across all pods exceeds 50%, it will increase the number of replicas,
+# and if it falls below 50%, it will decrease the number of replicas, within the defined limits.
+
+# Instead of .yaml file, you can also create HPA using kubectl command (Imperative way):
+# kubectl autoscale deployment php-apache --min=1 --max=10 --cpu-percent=50
+
+# Reference: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/

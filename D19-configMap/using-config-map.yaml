@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-config-map
+  labels:
+    app.kubernetes.io/name: MyApp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    env:
+    - name: FIRSTNAME
+      valueFrom:
+        configMapKeyRef:
+          name: demo-cm
+          key: firstname
+    - name: LASTNAME
+      valueFrom:
+        configMapKeyRef:
+          name: demo-cm
+          key: lastname
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+
+# In this pod definition, we have a single container named myapp-container that uses the BusyBox image.
+# The container has an environment variable FIRSTNAME (This FIRSTNAME for the container)
+#  which gets its value from a ConfigMap named app-cm, specifically from the key firstname (this 'firstname' key should match the one in the ConfigMap).
+
+# you can set the config map using imperative command:
+# kubectl create configmap app-cm --from-literal=firstname=Shankar
+
+# OR
+
+# you can create a config map using a yaml file (app-configmap.yaml)
+
+# There are many ways refer to the config map in the pod.
+#  refer to "kubernetes official doc" for more info.

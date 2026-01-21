@@ -1,0 +1,19 @@
+# Requesting Node with 1000Gi, which we don't have, so pod will be in pending state.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-beyond-node-limit
+  namespace: mem-test
+spec:
+  containers:
+  - name: memory-demo-ctr3
+    image: polinux/stress
+    resources:
+# The pod is set to request and limit 1000Gi memory, which is beyond the node's available memory.
+# Pod will remain in pending state as node can't fulfill this request.
+      requests:
+        memory: "1000Gi"
+      limits:
+        memory: "1000Gi"
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1"]

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-ds
+  # namespace: cka-ns
+  labels:
+    app: nginx-daemonset-app
+    maintainor: shankar-ds
+# "spec" defines the each pod that will be created on each node
+spec:
+  template:
+    metadata:
+      name: nginx-daemonset-pod
+      labels:
+        app: nginx-daemonset-app
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx-daemonset-container
+        ports:
+        - containerPort: 80
+  selector:
+    matchLabels:
+      app: nginx-daemonset-app
+      

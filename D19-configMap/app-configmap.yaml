@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  firstname: shankar
+  lastname: K
+kind: ConfigMap
+metadata:
+  name: demo-cm

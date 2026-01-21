@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: live-ready-http
+spec:
+  containers:
+  - name: liveness
+    image: opsdockerimage/e2e-test-images-agnhost:2.57
+    args:
+    - liveness
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+
+
+# This pod runs a container using the agnhost image, which is designed for end-to-end testing in Kubernetes.
+# It defines both a liveness probe and a readiness probe that perform HTTP GET requests to the /healthz endpoint on port 8080.
+# The liveness probe starts checking the container's health 3 seconds after the container starts and checks every 3 seconds.
+# The readiness probe starts checking the container's readiness 15 seconds after the container starts and checks every 10 seconds.
+# If the liveness probe fails, Kubernetes will restart the container.
+# If the readiness probe fails, the pod will be marked as not ready, and it will not receive traffic from services.
+
+# initialDelaySeconds : This parameter specifies the number of seconds to wait after the container has started before performing the first probe.
+# periodSeconds : This parameter specifies how often (in seconds) to perform the probe.

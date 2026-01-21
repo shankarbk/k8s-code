@@ -1,0 +1,28 @@
+# rc - replication controller
+# To check which version of api to be used for replication controller
+# run the command: kubectl explain rc
+# Till 'spec' block its the ReplicationController configuration
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-rc
+  labels:
+    app: nginx
+    maintainer: shankar-rc
+# from now, its the Pod configuration
+spec:
+  template:
+    metadata:
+      labels: 
+        app: my-nginx-pod
+        maintainer: shankar-rc
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        # ports:
+        # - containerPort: 8010
+        # nginx by default runs on port 80
+        # containerPort is only documentation / metadata. It does NOT change nginx listening port.
+  replicas: 3
+
