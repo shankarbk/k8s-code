@@ -1,4 +1,4 @@
-Steps:
+## Steps for Authentication:
     step 1: The new user has to generate the private key using CSR (Certificate Signing Request)
     
         openssl genrsa -out ramesh.key 2048
@@ -50,3 +50,28 @@ Steps:
     step 6: One the certificate is approved , share the certificte with user 
 
         kubectl get csr ramesh-sign-request -o yaml > ramesh-csr-approved.yaml
+
+## Steps for Authorization:
+----------------------------
+
+step 1: crete decoded cert
+
+
+step2: add user to kubeconfig 
+
+kubectl config set-credentials shankar --client-key="created_by_new_user/shankar.key"  --client-certificate=shankar-crt-only-encoded.crt --embed-certs=tru
+
+
+step3: add user to cluster
+    Check availabe cluters : kubectl config get-contexts
+
+    kubectl config set-context shankar --cluster=kind-cka-cluster-master-worker --user=shankar
+
+    kubectl config get-contexts
+
+    kubectl config use-context shankar
+
+
+Reference document : https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/
+
+
