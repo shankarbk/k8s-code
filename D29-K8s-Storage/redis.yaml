@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod #name of the Pod
+spec:
+  containers:
+  - name: redis-container #name of the container
+    image: redis:latest #image to be used for the container
+    volumeMounts:
+    - name: redis-storage #name of the volume to be mounted
+      mountPath: /data/redis #path inside the container where the volume will be mounted
+  volumes:
+  - name: redis-storage #name of the volume, it should match the name in volumeMounts, its mapped inside the pod
+    emptyDir: {} #type of volume
