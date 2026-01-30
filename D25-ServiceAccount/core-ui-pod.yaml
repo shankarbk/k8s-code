@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-image-pod
+spec:
+  serviceAccountName: docker-sa
+  containers:
+  - name: core-ui-app
+    image: sbkqubits/core-ui:1.0
+    ports:
+    - containerPort: 80

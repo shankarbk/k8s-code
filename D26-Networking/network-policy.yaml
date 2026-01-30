@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-frontend-to-mysql
+spec:
+  podSelector:
+    matchLabels:
+      name: mysql
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: backend
+    ports:
+    - port: 3306
+    
+# This NetworkPolicy allows ingress traffic to pods with label "name: mysql"
+# only from pods with label "role: backend" on port 3306.
+# All other traffic to the mysql pods will be denied.
+# Make sure to apply this NetworkPolicy in the same namespace where the mysql pods are running.
+# First run the full-application.yaml to create the pods and services, then apply this NetworkPolicy.
+# kubectl apply -f network-policy.yaml

@@ -1,0 +1,27 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30001
+    hostPort: 30001
+- role: worker
+- role: worker
+networking:
+  disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16
+
+# Step1:
+# To create the cluster, run:
+# kind create cluster --name=cka --config kind-cluster-d26.yaml
+# To delete the cluster, run:
+# kind delete cluster --name "cka"
+
+# step2:
+#  To create full functional cluser, we need the CNI plugin as we have disabled the default CNI above.
+#  We can use any CNI plugin like Calico, Weave, Flannel etc
+# refer this documentation : https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/ (https://github.com/containernetworking/cni)
+
+    #  Here we are using Calico CNI plugin (https://docs.tigera.io/calico/latest/getting-started/kubernetes/kind)
+    # To install Calico CNI plugin, run below command after creating the cluster
+    # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.31.3/manifests/calico.yaml
