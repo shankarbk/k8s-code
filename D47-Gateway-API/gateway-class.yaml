@@ -1,0 +1,13 @@
+# GatewayClass (Choose Controller)
+# check for the getway class name 
+# > kubectl get gc
+  # this above command shows the "controller name" as well as "class" name, in my case its "nginx" because we didn't created this GatewayClass.
+
+# if getway class not exists create one by below code:
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: GatewayClass
+# metadata:
+#   name: my-gateway-class
+# spec:
+#   controllerName: example.com/gateway-controller
+

@@ -1,0 +1,31 @@
+# Gateway (Define Entry Point)
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-nginx-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    # Indent this block to be under the list item above
+    allowedRoutes:
+      namespaces:
+        from: All
+
+
+#  The gateway class nsme is "nginx", we're using existing default class.
+#   > kubectl get gc
+
+
+# allowedRoutes block explanation:
+  # This block controls:
+  # 🚦 Who is allowed to attach routes (HTTPRoute) to this Gateway
+  # Think:
+    # 👉 Gateway = Entry Door 🚪
+    # 👉 HTTPRoute = Traffic Rules 📜
+
+    # Now question:
+      # ❓ Which namespaces are allowed to use this door?
+      # That’s exactly what allowedRoutes decides.
