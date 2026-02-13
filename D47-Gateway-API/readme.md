@@ -33,12 +33,9 @@ STEP 1️⃣ — Gateway API CRDs
 
 STEP 2️⃣ — Install NGINX Gateway Fabric via Helm
 
-    helm install my-nginx-gateway-fabric oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-    --namespace nginx-gateway \
-    --create-namespace
-    --wait
-
-
+    helm install nginx-gateway oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+    --create-namespace \
+    -n nginx-gateway
 
     ✔ Installs:
         Controller
