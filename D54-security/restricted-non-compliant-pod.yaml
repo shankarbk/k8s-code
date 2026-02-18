@@ -1,0 +1,25 @@
+# all-violations-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-violations
+  namespace: restricted-ns
+spec:
+  containers:
+  - name: violation-container
+    image: busybox
+    command: ["sleep", "3600"] # Keep the container running to demonstrate capabilities, otherswise it will exit immediately
+    securityContext:
+      privileged: true                 # Violation 1: Privileged container
+      runAsUser: 0                     # Violation 2: Running as root
+      allowPrivilegeEscalation: true   # Violation 3: Privilege escalation allowed
+      capabilities:
+        add: ["SYS_ADMIN", "NET_ADMIN"] # Violation 4: Adding dangerous capabilities
+    volumeMounts:
+    - name: host-root
+      mountPath: /host
+  volumes:
+  - name: host-root
+    hostPath:
+      path: /                          # Violation 5: Host path volume
+      type: Directory

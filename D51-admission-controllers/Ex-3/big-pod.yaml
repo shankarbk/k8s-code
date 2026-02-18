@@ -1,0 +1,14 @@
+# Create file: big-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: big-pod
+  namespace: quota-demo
+spec:
+  containers:
+  - name: big-container
+    image: nginx
+    resources:
+      requests:
+        memory: "2Gi"  # This exceeds our quota!
+        cpu: "1"

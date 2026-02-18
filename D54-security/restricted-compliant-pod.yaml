@@ -1,0 +1,22 @@
+# restricted-compliant-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: compliant-pod
+  namespace: restricted-ns
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name : compliant-container
+      image: busybox
+      command: ["sleep", "3600"] # Keep the container running to demonstrate capabilities, otherswise it will exit immediately
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]

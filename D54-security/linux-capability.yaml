@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod-secure-demo-pod-name
+spec:
+  containers:
+  - name: busybox-container-container-name
+    image: busybox
+    command: ["sleep", "3600"] # Keep the container running to demonstrate capabilities, otherswise it will exit immediately
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"]    # Add specific capabilities explicitly
+        drop: ["ALL"]                      # Drop all capabilities explicitly, then add only the required ones

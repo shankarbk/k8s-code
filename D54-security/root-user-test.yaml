@@ -1,0 +1,12 @@
+# root-user-test.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: root-user-test
+spec:
+  containers:
+  - name: root-container
+    image: busybox
+    command: ["sleep", "3600"]
+    securityContext:
+      runAsUser: 0  # Root user

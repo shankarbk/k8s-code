@@ -162,3 +162,32 @@ Conclusion:
     Simple Memory Hook(To Rememver):
         Mutating = “Let me fix it”
         Validating = “This is illegal”
+
+# 3️⃣ Working with Built-in Admission Controllers
+Exercise : ResourceQuota (Validating Controller)
+    ResourceQuota prevents resource overconsumption - like having a spending limit on your credit card.
+
+    Step 1: Create a namespace with a resource quota (kubectl apply -f resource-quota-demo.yaml)
+
+    Step 2: Apply the configuration (kubectl apply -f resource-quota-demo.yaml)
+
+    Step 3: Try to create a pod that exceeds the quota (big-pod.yaml)
+
+    Step 4: Apply and observe the error (kubectl apply -f big-pod.yaml)
+    Error:
+        Error from server (Forbidden): error when creating "big-pod.yaml": pods "big-pod" is forbidden: failed quota: compute-quota: must specify limits.cpu for: big-container; limits.memory for: big-container
+
+Exercise 2: LimitRanger (Mutating Controller)
+    LimitRanger automatically adds resource limits - like a helpful assistant that fills out forms for you.
+
+    Step 1: Create a LimitRange (limit-range-demo.yaml)
+
+    Step 2: Apply the LimitRange (kubectl apply -f limit-range-demo.yaml)
+
+    Step 3: Create a pod without specifying resources (simple-pod.yaml)
+
+    Step 4: Apply and check the pod (kubectl apply -f simple-pod.yaml)
+
+        kubectl get pod simple-pod -n quota-demo -o yaml | grep -A 10 resources
+
+
