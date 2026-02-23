@@ -17,3 +17,7 @@ spec:
         - /tmp/started
       failureThreshold: 30
       periodSeconds: 2
+
+# This pod will be in "ContainerCreating" state until the file /tmp/started is created inside the container.
+# You can create the file using `kubectl exec -it startup-exec -- touch /tmp/started` and then check the status of the pod using `kubectl describe pod startup-exec`.
+# failureThreshold is set to 30 and periodSeconds is set to 2, which means that the kubelet will try to execute the command every 2 seconds for a total of 30 times before giving up and marking the pod as failed.

@@ -14,3 +14,7 @@ spec:
         - /tmp/ready
       initialDelaySeconds: 5
       periodSeconds: 5
+
+
+# This pod will be in "Not Ready" state until the file /tmp/ready is created inside the container. 
+#You can create the file using `kubectl exec -it ready-exec -- touch /tmp/ready` and then check the status of the pod using `kubectl describe pod ready-exec`.

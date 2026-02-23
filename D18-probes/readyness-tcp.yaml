@@ -9,5 +9,6 @@ spec:
     readinessProbe:
       tcpSocket:
         port: 80
+        # port: 8090 # To fail the probe, uncomment the above line and comment this line then check the status of the pod using `kubectl describe pod ready-tcp`
       initialDelaySeconds: 5
       periodSeconds: 5
