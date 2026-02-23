@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: live-tcp
+  name: startup-tcp
 spec:
   containers:
   - name: nginx
     image: nginx
-    livenessProbe:
+    startupProbe:
       tcpSocket:
         port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 5
+      failureThreshold: 30
+      periodSeconds: 2
