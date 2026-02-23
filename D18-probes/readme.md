@@ -105,7 +105,7 @@ With probes:
 
 ⚙️ Probes can be defined in the Pod spec (.spec.containers[].livenessProbe, .readinessProbe, .startupProbe).
 
-🔥 How kubelet Executes Probes
+🔥 How kubelet Executes Probes (Probe check mechanisms)
 - Kubelet runs probes via:
 
     ✔ HTTP request : Kubernetes sends an HTTP request to a specified endpoint.
