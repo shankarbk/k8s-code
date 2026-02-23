@@ -9,10 +9,17 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8082
+  - port: 8082 # Service port
     targetPort: 8085
     # we have configured this in D6 learning, Because The Kind cluster doesnot exposes NodePort by default
     # This port(30001) should match with the port configured in kind cluster configuration file (D6-create-multiple-cluster\kind-cluster.yaml)
     nodePort: 30001
   selector:
     app: my-nginx-pod-deploy
+
+# The Service port.
+  # In simple terms:
+  # 👉 This is the port that the Service exposes to the outside world (or to other pods).
+  # When something connects to the Service, it talks to port 8081, not directly to the pod.
+  # Users / other pods connect to 8082
+  # Kubernetes forwards traffic to container 8085

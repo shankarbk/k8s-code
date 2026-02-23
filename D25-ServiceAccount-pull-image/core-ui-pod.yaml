@@ -1,13 +1,58 @@
-apiVersion: v1
-kind: Pod
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: core-ui-pod
+#   labels:
+#     app: core-ui
+# spec:
+#   serviceAccountName: docker-sa
+#   containers:
+#   - name: core-ui-app
+#     image: sbkqubits/core-ui:1.0
+#     ports:
+#     - containerPort: 80
+# ----------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: core-ui-pod
   labels:
     app: core-ui
 spec:
-  serviceAccountName: docker-sa
-  containers:
-  - name: core-ui-app
-    image: sbkqubits/core-ui:1.0
-    ports:
-    - containerPort: 80
+  replicas: 4
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: core-ui
+
+  template:
+    metadata:
+      labels:
+        app: core-ui
+    spec:
+      containers:
+      - name: core-ui-app
+        image: sbkqubits/core-ui:1.0
+        ports:
+        - containerPort: 80
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20

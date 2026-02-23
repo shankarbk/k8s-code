@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: adapter-demo
+spec:
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+
+  containers:
+  - name: data-generator
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args:
+      - while true; do
+          echo "temperature=$(shuf -i 20-40 -n 1)" > /data/raw.txt;
+          sleep 2;
+        done
+    volumeMounts:
+    - name: shared-data
+      mountPath: /data
+
+  - name: adapter
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args:
+      - while true; do
+          cat /data/raw.txt | sed 's/temperature/temp_celsius/' > /data/converted.txt;
+          sleep 2;
+        done
+    volumeMounts:
+    - name: shared-data
+      mountPath: /data

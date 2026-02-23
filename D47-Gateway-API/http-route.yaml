@@ -4,9 +4,10 @@ metadata:
   name: core-ui-route
   namespace: default
 spec:
-  parentRefs:       # your gateway name
-  - name: my-nginx-gateway
-    namespace: nginx-gateway
+  parentRefs:
+  - name: core-ui-nginx-gateway   # ✅ MATCH GATEWAY NAME
+    namespace: nginx-gateway      # ✅ CORRECT NS
+    sectionName: http-listener    # ✅ MATCH LISTENER NAME
   # hostnames:
   # - "core-ui.127.0.0.1.nip.io" # Maps to localhost
   rules:

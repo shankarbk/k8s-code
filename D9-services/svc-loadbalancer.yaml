@@ -8,7 +8,14 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 8081
+  - port: 8081 # Service port
     targetPort: 8085
   selector:
     app: my-nginx-pod-deploy
+
+# The Service port.
+  # In simple terms:
+  # 👉 This is the port that the Service exposes to the outside world (or to other pods).
+  # When something connects to the Service, it talks to port 8081, not directly to the pod.
+  # Users / other pods connect to 8081
+  # Kubernetes forwards traffic to container 8085

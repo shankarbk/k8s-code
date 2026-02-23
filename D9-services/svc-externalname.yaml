@@ -9,5 +9,12 @@ spec:
   type: ExternalName
   externalName: example-sbk.com
   ports:
-  - port: 8084
+  - port: 8084 # Service port
     targetPort: 8085
+    
+# The Service port.
+  # In simple terms:
+  # 👉 This is the port that the Service exposes to the outside world (or to other pods).
+  # When something connects to the Service, it talks to port 8081, not directly to the pod.
+  # Users / other pods connect to 8084
+  # Kubernetes forwards traffic to container 8085

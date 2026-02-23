@@ -3,8 +3,12 @@ apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
   extraPortMappings:
-  - containerPort: 30001
-    hostPort: 30001
+  - containerPort: 30001 # KIND Control Plane Container
+    hostPort: 30001 # Laptop:30001
+  - containerPort: 443
+    hostPort: 30443
+  - containerPort: 80
+    hostPort: 30080
 - role: worker
 - role: worker
 networking:
@@ -25,3 +29,12 @@ networking:
     #  Here we are using Calico CNI plugin (https://docs.tigera.io/calico/latest/getting-started/kubernetes/kind)
     # To install Calico CNI plugin, run below command after creating the cluster
     # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.31.3/manifests/calico.yaml
+
+# After calico installation, a dedicated namespace like calico-system is not created when using the direct calico.yaml manifest approach. 
+# Instead, Calico components are installed into the existing kube-system namespace.
+
+# Where to find Calico
+# To verify the installation, you should check for pods in the kube-system namespace: 
+# kubectl get pods -n kube-system
+
+# once you recreate the cluster, everythin vanished (CNI, all objects, service accout etc..etc)
