@@ -75,9 +75,35 @@ NOTE : In KIND, you can easily test RBAC
             kubectl auth can-i list pods --as shankar --> ✅ Yes
             kubectl auth can-i delete pods --as shankar --> ❌ Delete → denied
 
+    ✔ RBAC changes are applied immediately without API server restart.
+    ✔ RBAC is implemented using Kubernetes API resources, not static configuration.
+    RBAC objects are:
+        ✔ Role
+        ✔ ClusterRole
+        ✔ RoleBinding
+        ✔ ClusterRoleBindin
+        
+        These are stored in: etcd → dynamically evaluated
+        RBAC → dynamic ✅
+
+    🚨 When DO you need API server restart?
+        Only when changing:
+            ✔ Authorization mode itself
+            ✔ API server flags
+
+        Example:
+            --authorization-mode=RBAC
+            --authorization-mode=Node,RBAC
+            --authorization-mode=Webhook
+
+        These flags = restart required ✅
+
+        ✔ Modify RBAC rules → NO restart
+        ✔ Modify authorization-mode → Restart REQUIRED
+
 2️⃣ ABAC (Attribute-Based Access Control)
     Old model.
-    Permissions defined via policy file
+    Permissions defined via policy file (Static File)
 
     Why rarely used
         ❌ Hard to manage
@@ -85,6 +111,11 @@ NOTE : In KIND, you can easily test RBAC
         ❌ No dynamic updates
 
     Ex: ABAC directory
+
+    ✔ ABAC uses: --authorization-policy-file
+    ✔ Policy file changes → restart required
+
+    
 
 3️⃣ Node Authorization
     Used internally by Kubernetes.
