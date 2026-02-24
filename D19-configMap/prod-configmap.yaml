@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prod-config
+data:
+  DATABASE_HOST: "my-service"
+  CONTAINER_NAME: "busy-box-prod"
+  LOG_LEVEL: "error"

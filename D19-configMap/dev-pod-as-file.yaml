@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-pod-as-file
+spec:
+  containers:
+  - name: my-dev-busybox-app
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        echo Container name is $CONTAINER_NAME
+        echo Database host is $DATABASE_HOST
+        echo Log level is $LOG_LEVEL
+        sleep 3600
+    volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+    envFrom:
+      - configMapRef:
+          name: dev-config
+
+  volumes:
+    - name: config-volume
+      configMap:
+        name: dev-config
+
+
+# The volumes section must be at the pod spec level, not inside containers.

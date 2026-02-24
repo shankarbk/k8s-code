@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-pod-env
+spec:
+  containers:
+  - name: my-dev-busybox-app
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        echo Container name is $C_CONTAINER_NAME
+        echo Database host is $C_DATABASE_HOST
+        sleep 3600
+    env:
+    - name: C_CONTAINER_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: dev-config
+          key: CONTAINER_NAME
+    - name: C_DATABASE_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: dev-config
+          key: DATABASE_HOST
+
+# C_CONTAINER_NAME is just your environment variable name inside the container,
+# CONTAINER_NAME is the key in the ConfigMap you’re referencing.
+
+# Kubernetes reads:
+# “Create an environment variable called C_CONTAINER_NAME
+# and assign it the value stored in ConfigMap dev-config, key CONTAINER_NAME”
