@@ -1,0 +1,10 @@
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::123456789012:user/dev-user
+      username: dev-user
+      groups:
+        - dev-group
