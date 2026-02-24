@@ -1,0 +1,14 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      extraArgs:
+        authorization-mode: ABAC
+        authorization-policy-file: /etc/kubernetes/abac-policy.json
+  extraMounts:
+  - hostPath: ./abac-policy.json
+    containerPath: /etc/kubernetes/abac-policy.json

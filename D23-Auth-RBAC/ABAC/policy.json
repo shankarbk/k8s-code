@@ -1,0 +1,9 @@
+{
+  "apiVersion": "abac.authorization.kubernetes.io/v1beta1",
+  "kind": "Policy",
+  "spec": {
+    "user": "shankar",
+    "resource": "pods",
+    "verb": "get"
+  }
+}
