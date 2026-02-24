@@ -24,7 +24,7 @@
 | clusters        | (Where to connect) Defines the Kubernetes API server endpoint and certificate authority (CA) data for secure communication. |
 | users           | (Who are you) Stores authentication info (client certificates, tokens, or cloud provider credentials). |
 | contexts        | (Use THIS user on THIS cluster) Combines a cluster + user + namespace into a single "context" for easy switching. |
-| current-context | Specifies which context is active by default when you run kubectl. |
+| current-context | Specifies which context is currently active. By default all kubectl commands run against this context. |
 
 👉 Refer sample example kubeconfig-example.yaml
 
