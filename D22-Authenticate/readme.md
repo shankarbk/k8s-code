@@ -43,6 +43,8 @@
     - Do not share blindly: 
         Only use KubeConfig files from trusted sources, as malicious files can expose secrets or execute harmful commands
 
+    - Do not commit kubeconfig file to version control system
+
 ❓ Why kubectl config?
     Because:
         👉 You are managing kubectl configuration,
@@ -70,3 +72,7 @@
     View full config : kubectl config view
 
     Rename context : kubectl config rename-context old new
+
+    See current context : kubectl config current-context
+
+    set default namespace to the context : kubectl config -set-context --current --namespace=<namespace-name>
