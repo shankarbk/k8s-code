@@ -1,8 +1,9 @@
 ## SECTION 1
 ## Configmap (picked from copilot and gpt)
-A ConfigMap is a Kubernetes API object used to store non-confidential configuration data in key-value pairs.
 
-It allows you to store configuration data separately from your application container images. making applications more portable and easier to manage across different environments instead of hard-coding values inside your image (bad practice), you externalize them so you can change config without rebuilding the container.
+Its primary goal is to allows you to store configuration data separately from your application container images. making applications more portable and easier to manage across different environments instead of hard-coding values inside your image (bad practice), you externalize them so you can change config without rebuilding the container.
+
+A ConfigMap is a Kubernetes API object used to store non-confidential configuration data in key-value pairs.
 
 🧠 Why ConfigMaps exist ?
     Containers should be portable & reusable.
