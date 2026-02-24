@@ -151,78 +151,79 @@ Q: “How does EKS authorization differ from standard Kubernetes?”
 
 Example scenario : Allow IAM role to allow pods in EKS to access AWS services (e.g., S3).
 
-     Step 1: Create an IAM Role for EKS (IRSA)
-This IAM role will allow pods in EKS to access AWS services (e.g., S3).
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": ["s3:ListBucket"],
-      "Resource": ["arn:aws:s3:::my-demo-bucket"]
-    }
-  ]
-}
-
-
-- Attach this policy to an IAM role.
-- Trust policy must allow the EKS OIDC provider to assume the role:
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC_PROVIDER>"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "<OIDC_PROVIDER>:sub": "system:serviceaccount:default:my-app-sa"
+    📌 Step 1: Create an IAM Role for EKS (IRSA)
+        This IAM role will allow pods in EKS to access AWS services (e.g., S3).
+        {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+            "Effect": "Allow",
+            "Action": ["s3:ListBucket"],
+            "Resource": ["arn:aws:s3:::my-demo-bucket"]
+            }
+        ]
         }
-      }
-    }
-  ]
-}
 
 
-📌 Step 2: Create a Kubernetes ServiceAccount annotated with IAM Role
-This links the IAM role to the Kubernetes ServiceAccount via IRSA.
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: my-app-sa
-  namespace: default
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/EKS-S3-Access-Role
+        - Attach this policy to an IAM role.
+        - Trust policy must allow the EKS OIDC provider to assume the role:
+        {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC_PROVIDER>"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                "<OIDC_PROVIDER>:sub": "system:serviceaccount:default:my-app-sa"
+                }
+            }
+            }
+        ]
+        }
 
 
-📌 Step 3: Create a Kubernetes Role and RoleBinding
-This controls Kubernetes API access (not AWS). For example, allow listing pods:
+    📌 Step 2: Create a Kubernetes ServiceAccount annotated with IAM Role
+        This links the IAM role to the Kubernetes ServiceAccount via IRSA.
 
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: pod-reader
-  namespace: default
-rules:
-- apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["get", "list", "watch"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: read-pods-binding
-  namespace: default
-subjects:
-- kind: ServiceAccount
-  name: my-app-sa
-  namespace: default
-roleRef:
-  kind: Role
-  name: pod-reader
-  apiGroup: rbac.authorization.k8s.io
+        apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+            name: my-app-sa
+            namespace: default
+            annotations:
+                eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/EKS-S3-Access-Role
+
+
+    📌 Step 3: Create a Kubernetes Role and RoleBinding
+        This controls Kubernetes API access (not AWS). For example, allow listing pods:
+
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+        name: pod-reader
+        namespace: default
+    rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get", "list", "watch"]
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+        name: read-pods-binding
+        namespace: default
+    subjects:
+    - kind: ServiceAccount
+      name: my-app-sa
+      namespace: default
+    roleRef:
+        kind: Role
+        name: pod-reader
+        apiGroup: rbac.authorization.k8s.io
 
 
 
