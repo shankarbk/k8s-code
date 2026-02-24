@@ -1,0 +1,13 @@
+# values.yaml
+env: dev
+
+config:
+  dev:
+    DATABASE_HOST: "localhost"
+    CONTAINER_NAME: "busy-box-dev"
+    LOG_LEVEL: "debug"
+
+  cloud:
+    DATABASE_HOST: "my-service"
+    CONTAINER_NAME: "busy-box-cloud"
+    LOG_LEVEL: "info"

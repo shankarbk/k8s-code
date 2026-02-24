@@ -1,3 +1,4 @@
+## SECTION 1
 ## Configmap (picked from copilot and gpt)
 A ConfigMap is a Kubernetes API object used to store non-confidential configuration data in key-value pairs.
 
@@ -34,7 +35,7 @@ It allows you to store configuration data separately from your application conta
     ✔ Imperative (from file)
         kubectl create configmap demo-config --from-file=app.properties
 
-    ✔ Declarative (YAML manifest):
+    ✔ Declarative (YAML manifest)
 
 📦 Simple Example
     Create ConfigMap: db-config.yaml
@@ -49,8 +50,8 @@ It allows you to store configuration data separately from your application conta
 
 🔌 How Pods Use ConfigMaps
     Three common ways:
-        1️⃣ As Environment Variables (Most common)
-        2️⃣ Inject Entire ConfigMap
+        1️⃣ As Environment Variables (Most common)   
+        2️⃣ Inject Entire ConfigMap   
         3️⃣ As Files (Very powerful)
 
     Switching Environments
@@ -63,7 +64,7 @@ It allows you to store configuration data separately from your application conta
             - Separate manifests per environment: Keep deployment-dev.yaml, deployment-prod.yaml, etc., each pointing to the right ConfigMap.
                                                   OR  maintain separate configuration manifests(manifest-dev.yaml OR manifest-prod.yaml).
 
-            - 👉 Here HELM came into picture
+            - 👉 Here HELM came into picture (Refer : SECTION 2)
                 Helm/Kustomize : Use templating tools to avoid duplicating manifests. For example, Helm lets you pass --set env=dev and automatically inject the correct  ConfigMap reference.
 
                 A Helm values.yaml example where you can switch environments just by passing a flag, instead of editing YAML manually according to environments
@@ -126,3 +127,35 @@ It allows you to store configuration data separately from your application conta
         ✔ Environment-specific
         ✔ Frequently changing
         ✔ Non-sensitive
+
+
+## SECTION 2 :
+## complete Helm example that lets you switch environments (dev vs. cloud/prod) just by passing a flag, without editing YAML manually
+
+Step 1: Helm Chart Structure
+    my-app/
+        ├── Chart.yaml
+        ├── values.yaml
+        ├── templates/
+        │   ├── configmap.yaml
+        │   └── pod.yaml
+
+Step 2 : Create values.yaml
+
+Step 3: Create templates/configmap.yaml
+
+Step 4: Create templates/pod.yaml
+
+Step 6: Deploying with Helm
+    ✔ Dev environment (default):
+        helm install my-app ./my-app --set env=dev
+
+    ✔ Cloud environment
+        helm install my-app ./my-app --set env=cloud
+
+    Helm will automatically pick the right values from values.yaml based on the env flag.
+
+🔑 Key Takeaway
+- One chart, one codebase.
+- Switch environments by passing --set env=dev or --set env=cloud.
+- No manual YAML edits needed—Helm templates handle the substitution.

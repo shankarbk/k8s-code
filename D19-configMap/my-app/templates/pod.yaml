@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Values.env }}-pod-env
+spec:
+  containers:
+  - name: my-{{ .Values.env }}-busybox-app
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        echo Container name is $C_CONTAINER_NAME
+        echo Database host is $C_DATABASE_HOST
+        sleep 3600
+    env:
+    - name: C_CONTAINER_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: {{ .Values.env }}-config
+          key: CONTAINER_NAME
+    - name: C_DATABASE_HOST
+      valueFrom:
+        configMapKeyRef:
+          name: {{ .Values.env }}-config
+          key: DATABASE_HOST
