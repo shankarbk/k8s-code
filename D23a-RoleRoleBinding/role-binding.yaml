@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods-binding
+  namespace: dev
+subjects:
+- kind: User
+  name: shankar # users are cluster-scoped
+  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: docker-sa
+  namespace: default # This service account is in the default namespace
+roleRef:
+  kind: Role
+  name: pod-reader-role
+  apiGroup: rbac.authorization.k8s.io
+
+  

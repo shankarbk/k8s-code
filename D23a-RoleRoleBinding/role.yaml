@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: pod-reader-role #role name
+rules:
+- apiGroups: [""]        # "" = core API group
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+# apiGroups: "" means the core API group (apiVersion: V1) (pods, services, etc.).
+# resources: What objects this role applies to (pods).
+# verbs: Actions allowed (get, list, watch).
