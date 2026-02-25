@@ -8,8 +8,15 @@
     Theis YAML file used by kubectl to know : WHICH cluster → WHICH user → WHICH permissions
 
     Without it, kubectl is blind.
-
-    Default location: ~/.kube/config
+    
+    The kubeconfig file stored on a client machine (the OS/Machine, where you installed k8s):
+        Default location: ~/.kube/config
+    
+    FOr every kubectl command to api server :
+        ✅ It reads your kubeconfig file
+        👉 You are authenticated every time.
+        👉 But you don’t manually pass credentials each time.
+            Because kubeconfig handles that automatically.
 
     It stores:
         ✔ Clusters (servers)

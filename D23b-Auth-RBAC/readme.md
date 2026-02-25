@@ -9,9 +9,18 @@
             ✔ Verifies identity
             ✔ Token / cert / OIDC / etc.
 
+            🚀 Authentication Flow
+
+                    you authenticated every time for every command (every kubectl interaction ex : kubectl get po, kubetl get sm):
+                        kubectl → reads kubeconfig → attaches credentials → API server
+
         ✅ 2️⃣ Authorization → “What are you allowed to do?”
             ✔ Verifies permissions
             ✔ Happens after authentication
+
+        Kubernetes is stateless per request.
+        Each API call is independently authenticated + authorized. Exactly like REST APIs.
+        Kubernetes Security model = Zero trust per request
 
     Example flow:
         Every request to the Kubernetes API server goes through authorization checks. By default, access is denied unless explicitly allowed.
