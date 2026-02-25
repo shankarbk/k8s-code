@@ -2,7 +2,10 @@
 In Kubernetes, Roles and RoleBindings are part of the RBAC (Role-Based Access Control) system. They define what actions are allowed and who can perform them.
 
 ✅ Role → "What can be done?"
-    A Role defines permissions within a specific namespace
+    A Role defines permissions within a specific single namespace
+    ✔ Role is namespace scoped, they are not applied to cluster level resource.
+    ✔ used to restrict access to resource within one namespace.
+    Ex: Allow users to read pods only in DEV namespace.
 
     It answers:
         “What operations are allowed on which resources?”
@@ -18,6 +21,8 @@ In Kubernetes, Roles and RoleBindings are part of the RBAC (Role-Based Access Co
 
 ✅ RoleBinding → "Who can do it?"
     A RoleBinding attaches the Role to a user, group or ServiceAccount.
+    ✔ RoleBinding is namespace scoped, they are not applied to cluster level resource.
+    ✔ Binds to a Role to restrict access to resource within one namespace.
 
     It answers:
         Give permission to user, group or ServiceAccount.

@@ -1,0 +1,7 @@
+kind: RoleBinding
+metadata:
+  name: read-pods-dev
+  namespace: dev
+roleRef:
+  kind: ClusterRole
+  name: pod-reader
