@@ -1,22 +1,22 @@
 ## Service Account
-A ServiceAccount in Kubernetes is a special type of account designed for non-human identities. 
+A ServiceAccount in Kubernetes is a special type of account designed for non-human identities.    
 Unlike user accounts (which represent people), service accounts are meant for applications, pods, and system components that need to interact with the Kubernetes API securely
 
-Think of it like:
+Think of it like:   
     👉 User account → identity for humans    
     👉 ServiceAccount → identity for pods/apps
 
-🧠 Why do we need ServiceAccounts?
-    - Security: Prevents applications from using human credentials.
-    - Granularity: Each app can have its own identity and permissions.
-    - Automation: System components (like controllers) use service accounts to interact with the cluster.
-    - Best Practice: Always assign dedicated service accounts to workloads instead of relying on the default one.
-
-    - Pods often need to talk to the Kubernetes API:
-        - Read ConfigMaps / Secrets
-        - Query other resources
-        - Interact with controllers
-        - Access cloud integrations (IRSA in EKS, etc.)
+🧠 Why do we need ServiceAccounts?   
+     - Security: Prevents applications from using human credentials.   
+     - Granularity: Each app can have its own identity and permissions.   
+     - Automation: System components (like controllers) use service accounts to interact with the cluster.   
+     - Best Practice: Always assign dedicated service accounts to workloads instead of relying on the default one.   
+     
+     - Pods often need to talk to the Kubernetes API:      
+          - Read ConfigMaps / Secrets   
+          - Query other resources   
+          - Interact with controllers   
+          - Access cloud integrations (IRSA in EKS, etc.)
 
         But Kubernetes is secure by default.
         Every API request must be authenticated + authorized.
