@@ -103,7 +103,7 @@ Let’s build a minimal, observable, hands-on example you can run in your cluste
 # Ex 1 : Frontend ↔ Backend ↔ Database isolation
     full-application-piy.yaml
     network-policy-piy.yaml
-    
+
 # Ex 2 :
 Goal:
     ✔ Pods can talk by default
@@ -167,6 +167,10 @@ Step 8 — Test again
 
     Result :
         ✔ Works again.
+
+step 8 : clear all resource
+        we have created all these resources in policy-demo namespace.
+        so delete that namespace by : kubectl delete ns policy-demo
 
 ✅ What you just experienced (this is key)
     This tiny demo proves core Calico/K8s policy behavior:
