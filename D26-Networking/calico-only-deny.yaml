@@ -1,0 +1,11 @@
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: explicit-deny
+  namespace: policy-demo
+spec:
+  selector: app == 'nginx'
+  ingress:
+  - action: Deny
+    source:
+      selector: app == 'busybox'
