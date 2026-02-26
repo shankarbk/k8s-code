@@ -71,9 +71,9 @@ Think of it as:
     You should install this saperately.
 
 ⚡ Kubeadm is production ready and used by 
-    - on-prem clusters
+    - on-prem clusters --> Kubernetes running inside a company’s own infrastructure rather than a public cloud.
     - Bare-metal
-    - Cloud VMs
+    - Cloud VMs (Ex : EC2)
 
     🧠 what is bare metal cluster ?
         A bare metal cluster simply means:
