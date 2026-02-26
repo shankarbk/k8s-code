@@ -143,6 +143,8 @@ Think of it as:
 
 📦 Static Pods Concept (Important)
     kubeadm doesn’t run control plane components via systemd.
+    Systemd --> Systemd is the default, modern init system and service manager for most Linux distributions, 
+                functioning as the first process (PID 1) to boot the user space and manage system services.
 
     Instead:
         👉 Writes YAML manifests into: /etc/kubernetes/manifests/
