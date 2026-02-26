@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-example
+spec:
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: /data
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: my-pvc   # references a PVC (which binds to a PV)

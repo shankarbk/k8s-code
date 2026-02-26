@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-example
+spec:
+  containers:
+  - name: app
+    image: busybox
+    volumeMounts:
+    - mountPath: /nfs-data
+      name: nfs-vol
+  volumes:
+  - name: nfs-vol
+    nfs:
+      server: nfs-server.example.com
+      path: /exported/path
+      readOnly: false

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: projected-example
+spec:
+  containers:
+  - name: app
+    image: busybox
+    volumeMounts:
+    - mountPath: /all-in-one
+      name: all
+  volumes:
+  - name: all
+    projected:
+      sources:
+      - secret:
+          name: mysecret
+      - configMap:
+          name: myconfig
+      - downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels

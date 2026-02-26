@@ -1,0 +1,12 @@
+# StorageClass (dynamic)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap   # creates access point per PVC
+  fileSystemId: fs-12345678
+  directoryPerms: "700"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: csi-example
+spec:
+  containers:
+  - name: app
+    image: busybox
+    volumeMounts:
+    - mountPath: /etc/config
+      name: config-vol
+  volumes:
+  - name: csi-vol
+    csi:
+      driver: com.example.driver
+      volumeAttributes:
+        key: value
