@@ -147,6 +147,7 @@
         1️⃣ Delete Policy (Most Common in Cloud)
             Behavior:
                 ✔ PVC deleted → PV deleted → Disk deleted
+                ✔ Its a default policy in Manual PV creation (by cluster admin)
 
             Used when:
                 ✔ Dynamic provisioning
@@ -168,6 +169,7 @@
             Behavior:
                 ✔ PVC deleted → PV becomes Released
                 ✔ Disk remains intact
+                ✔ Its a default policy in PV creation via storage class (Dynamic provisioning)
 
             Admin must:
                 ✔ Manually delete disk
