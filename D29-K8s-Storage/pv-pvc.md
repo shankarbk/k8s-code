@@ -113,3 +113,4 @@
         Because Kubernetes enforces: 👉 Loose coupling & abstraction
         PVC allows flexibility & dynamic provisioning.
 
+Next Section : storage-class.md

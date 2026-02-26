@@ -1,0 +1,19 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-ssd               # ← this is what you reference in PVC
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"   # ← optional: default class
+
+provisioner: pd.csi.storage.gke.io          # ← CSI driver name (very important)
+reclaimPolicy: Delete                        # Delete or Retain
+volumeBindingMode: WaitForFirstConsumer      # Very important in 2024–2025 clusters
+allowVolumeExpansion: true                   # Can we grow PVC later?
+parameters:
+  type: pd-ssd                               # e.g. premium-ssd, standard-hdd, io1, gp3...
+  fsType: ext4
+  disk-type: pd-ssd
+  iopsPerGB: "10"
+mountOptions:
+  - discard
+
