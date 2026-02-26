@@ -77,7 +77,7 @@ Think of it as:
 
     🧠 what is bare metal cluster ?
         A bare metal cluster simply means:
-            Kubernetes running directly on physical servers, not inside a cloud VM or virtualization layer.
+            A Kubernetes cluster deployed directly on physical servers without a virtualization or cloud provider layer.
             No AWS EC2, no VMware, no VirtualBox.
             Just real machines.
 
