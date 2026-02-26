@@ -119,12 +119,73 @@
     These describe **how storage can be mounted**, NOT lifecycle.
     Important for cloud storage behavior.
 
-| Mode                    | Meaning               |
-| ----------------------- | --------------------- |
-| **ReadWriteOnce (RWO)** | One node can mount    |
-| **ReadOnlyMany (ROX)**  | Many nodes read-only  |
-| **ReadWriteMany (RWX)** | Many nodes read-write |
+    | Mode                    | Meaning               |
+    | ----------------------- | --------------------- |
+    | **ReadWriteOnce (RWO)** | One node can mount    |
+    | **ReadOnlyMany (ROX)**  | Many nodes read-only  |
+    | **ReadWriteMany (RWX)** | Many nodes read-write |
 
+
+🧩 Reclaim policy
+    🔹What is Reclaim Policy?
+        Reclaim Policy = What happens to the storage AFTER the PVC is deleted
+        It applies to the PersistentVolume (PV), not directly to the PVC.
+
+        Think:
+            👉 Pod dies → nothing special
+            👉 PVC deleted → reclaim policy decides fate of disk
+
+    🔹Available Reclaim Policies
+        |           Policy           |          What Happens               |
+        | -------------------------- | ----------------------------------- |
+        | **Delete**                 | Underlying storage is deleted       |
+        | **Retain**                 | Storage kept, manual cleanup needed |
+        | **Recycle** *(deprecated)* | Old wipe & reuse behavior           |
+
+        Only Delete and Retain matter today.
+
+        1️⃣ Delete Policy (Most Common in Cloud)
+            Behavior:
+                ✔ PVC deleted → PV deleted → Disk deleted
+
+            Used when:
+                ✔ Dynamic provisioning
+                ✔ Temporary workloads
+                ✔ Most EKS setups
+
+            Example(YAML):
+                persistentVolumeReclaimPolicy: Delete
+
+            Real-world implication
+                ✔ Easy automation
+                ✔ No orphaned disks
+                ❌ Dangerous for databases if PVC accidentally removed
+
+            Classic production horror story.
+
+        2️⃣ Retain Policy (Safer, Manual Control)
+
+            Behavior:
+                ✔ PVC deleted → PV becomes Released
+                ✔ Disk remains intact
+
+            Admin must:
+                ✔ Manually delete disk
+                ✔ Or rebind PV
+
+            Example(YAML):
+                persistentVolumeReclaimPolicy: Retain
+
+            Used when:
+                ✔ Critical data
+                ✔ Backup / forensic recovery
+                ✔ Compliance requirements
+
+            Tradeoff:
+                ✔ Safer for data
+                ❌ Requires ops discipline
+    
+    👉 Refer : pv-pvc.md
 
 💥 Volumes with Respect to Amazon EKS (AWS-managed Kubernetes)
     EKS supports all standard Kubernetes volume types above. However:
