@@ -63,7 +63,7 @@ Think of it as:
     Networking:
         → Apply CNI plugin
 
-🎯 Kubeadm does not
+🎯 Kubeadm **does not**
     - install CNI
     - install container runtime 
     - provide GUI
