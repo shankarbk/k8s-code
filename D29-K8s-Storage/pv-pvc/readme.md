@@ -34,7 +34,7 @@
     Important idea:
         PV is a cluster resource, not tied to any pod.
 
-    Code Example : sample-pv.yaml
+    Code Example : pv-pvc/pv.yaml
         This says:
             ✔ Provide 1Gi storage
             ✔ Use local node path /mnt/data
@@ -48,7 +48,7 @@
 
     PVC is created by developers, not cluster admins.
 
-    Code Example : sample-pvc.yaml
+    Code Example : pv-pvc/pvc.yaml
         This says:
             ✔ Request 500Mi storage
             ✔ Match PV with storageClass manual
@@ -76,12 +76,12 @@
 🚀 Using PVC Inside a Pod
     Pods never use PV directly. --> They use PVC.
 
-    Example code : sample-pod-for-pvc.yaml
+    Example code : pv-pvc/pod.yaml
         ✔ Pod mounts PVC
         ✔ PVC already bound to PV
         ✔ Data persists across pod restarts
 
-    Real flow : sample-pod-for-pvc.yaml ---> sample-pvc.yaml ---> sample-pv.yaml ---> (clustter)
+    Real flow : pv-pvc/pod.yaml ---> pv-pvc/pvc.yaml ---> pv-pvc/pv.yaml ---> (clustter)
             pod → pvc → pv
 
 🔄 Reclaim Policy (Critical Concept)

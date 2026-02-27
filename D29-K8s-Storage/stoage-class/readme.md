@@ -23,7 +23,7 @@ Why do we need StorageClass?
 
 🧩 Step-by-Step Working
     1️⃣ Admin Creates StorageClass
-        code file : storage-class.yaml
+        code file : storage-class/sc.yaml
 
         📦 StorageClass Key Fields Explained
 
@@ -45,7 +45,7 @@ Why do we need StorageClass?
 | **WaitForFirstConsumer** | Only when the first Pod using the PVC is scheduled | Yes | Multi-zone clusters, topology-aware scheduling | Default choice (2025+) |
 
    2️⃣ Developer Creates PVC
-        Code file : sc-pvc.yaml
+        Code file : storage-class/pvc.yaml
 
         If you don't set storageClassName → Kubernetes uses the default StorageClass (if it exists).
 
@@ -137,8 +137,8 @@ Why do we need StorageClass?
 
 ✅ Example Flow
 
-1. Admin creates StorageClass: kubectl apply -f storageclass.yaml → Just a definition; no storage created.
-2. Developer creates PVC (Storage appears only now): kubectl apply -f pvc.yaml (referencing the StorageClass) → Triggers dynamic provisioning → PV is created.
+1. Admin creates StorageClass: kubectl apply -f storage-class/sc.yaml → Just a definition; no storage created.
+2. Developer creates PVC (Storage appears only now): kubectl apply -f  storage-class/pvc.yaml (referencing the StorageClass) → Triggers dynamic provisioning → PV is created.
 3. Pod uses the PVC: Storage becomes available to the application.
 
 🧠 Why This Design Exists

@@ -58,7 +58,7 @@
     ✔ Simple
     ❌ Data lost on Pod deletion
     
-    Code file : emptydir.yaml
+    Code file : volume-types/emptydir.yaml
 
 2. hostPath (Semi-persistent, node-local)
     Mounts a file/directory from the host node's filesystem. Data survives Pod deletion but Pod must schedule on the same node.
@@ -68,7 +68,7 @@
     ❌ Security risk
     ❌ Pod tied to node
 
-    Code file : hostPath.yaml
+    Code file : volume-types/hostPath.yaml
 
 3. configMap (Ephemeral – config injection)
     Inject configuration as files (read-only).
@@ -76,7 +76,7 @@
     ✔ Dynamic config
     ❌ Not for large data
 
-    Code file : configmap.yaml
+    Code file : volume-types/configmap.yaml
 
 4. secret (Ephemeral – sensitive data)
     Like configMap but for Secrets (always read-only, base64-encoded).
@@ -85,21 +85,23 @@
     ✔ Secure
     ❌ Size limits
 
-    Code file : secret.yaml
+    Code file : volume-types/secret.yaml
     
 5. downwardAPI (Ephemeral – pod metadata injection)
     Exposes Pod/ container fields (labels, annotations, IP, resource limits, etc.) as read-only files.
     Useful for logging / monitoring agents.
 
-    Code file : downward-api.yaml
+    Code file : volume-types/downward-api.yaml
      
 6. projected (Ephemeral – combine multiple sources)
     Maps secret + configMap + downwardAPI + serviceAccountToken into one directory.
 
-    Code file : projected.yaml
+    Code file : volume-types/projected.yaml
 
 7. nfs (Persistent – network file share)
     Mounts an existing NFS share. Supports multi-writer. Contents preserved when Pod is deleted.
+    
+    Code file : volume-types/nfs.yaml
 
 8. persistentVolumeClaim (Persistent – general durable storage)
     The standard way to consume any PV (local, NFS, CSI, cloud, etc.).
@@ -109,11 +111,14 @@
     ✔ Cloud-backed storage
     ✔ Production workloads
 
-    Code file : pvc.yaml
+    Code file : volume-types/pvc.yaml
 
 9. csi (Modern standard for cloud/external storage)
     Used directly for ephemeral CSI volumes or via PVC for persistent. 
     All major providers (AWS, Azure, GCP, etc.) now require CSI drivers.
+
+    Code file : volume-types/csi.yaml
+
 
 🧩 Access Modes (Often Confused with Scope)
     These describe **how storage can be mounted**, NOT lifecycle.
@@ -214,13 +219,13 @@
             ✔ Databases
             ✔ Stateful apps
 
-        Code file : EKS EBS Example (most common)
-            eks-ebs-storageclass.yaml
+        EKS EBS Example (most common)
+            Code file : aws-eks/ebs-sc.yaml
                 ✔ Creates gp3 EBS volumes
                 ✔ Encrypted
                 ✔ Expandable
 
-            eks-ebs-pvc.yaml
+             Code file : aws-eks/ebs-pvc.yaml
                 ✔ Requests a 10Gi gp3 EBS volume
                 ✔ Dynamically provisioned
 
@@ -239,7 +244,8 @@
         Used for:
             ✔ High-performance / Windows / Lustre
 
-        Code file : eks-efs.yaml
+        Code file :  aws-eks/efs-sc.yaml
+        Code file :  aws-eks/efs-pvc.yaml
         
 | Storage | CSI Driver | Access Modes | Best For | Multi-AZ? | Dynamic Provisioning|
 | ------- | ---------- | ------------ | -------- |---------- |-------------------- |
