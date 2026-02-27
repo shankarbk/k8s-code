@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true          # only for testing!
+    server: https://always-allow-webhook:8443/authorize
+  name: always-allow-webhook
+contexts:
+- context:
+    cluster: always-allow-webhook
+    user: apiserver
+  name: always-allow-context
+current-context: always-allow-context
+users:
+- name: apiserver
+  user:
+    client-certificate-data: ...   # optional — usually skipped in tests
+    client-key-data: ...
