@@ -1,0 +1,45 @@
+# EX:1
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pvc-pod
+  namespace: default          # ← change if your PVC is in another namespace
+spec:
+  containers:
+  - name: busybox
+    image: busybox:1.36        # lightweight, good for quick tests
+    command: ["/bin/sh", "-c", "sleep 3600"]   # just keep it running
+    volumeMounts:
+    - mountPath: /data         # ← where the volume appears inside the container
+      name: persistent-storage
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: mysql-data    # ← must match your PVC name
+
+
+
+# EX:2
+# Simple sample Pod example (using busybox for testing)
+# This is a minimal Pod that uses your mysql-data PVC (or whatever name you chose).
+
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: mysql-test
+# spec:
+#   containers:
+#   - name: mysql
+#     image: mysql:8.0
+#     env:
+#     - name: MYSQL_ROOT_PASSWORD
+#       value: "rootpass123"
+#     - name: MYSQL_DATABASE
+#       value: "mydb"
+#     volumeMounts:
+#     - mountPath: /var/lib/mysql
+#       name: mysql-data-vol
+#   volumes:
+#   - name: mysql-data-vol
+#     persistentVolumeClaim:
+#       claimName: mysql-data

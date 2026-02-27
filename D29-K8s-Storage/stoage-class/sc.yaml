@@ -1,19 +1,36 @@
+# Ex: for cloud ebs creation
+
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: fast-local               # ← this is what you reference in PVC
+#   annotations:
+#     storageclass.kubernetes.io/is-default-class: "true"   # ← optional: default class
+
+# provisioner: ebs.csi.aws.com        # ← CSI driver name (very important) depends on cloud provider and storage type, e.g. ebs.csi.aws.com, disk.csi.azure.com, pd.csi.storage.gke.io, csi-hostpath-driver, etc., 
+#                                             # use only in cloud environments, for local testing use csi-hostpath-driver
+# reclaimPolicy: Delete                        # Delete or Retain
+# volumeBindingMode: WaitForFirstConsumer      # Very important in 2024–2025 clusters
+# allowVolumeExpansion: true                   # Can we grow PVC later?
+# parameters:
+#   type: pd-ssd-local                               # e.g. premium-ssd, standard-hdd, io1, gp3...
+#   fsType: ext4
+#   disk-type: pd-ssd
+#   iopsPerGB: "10"
+# mountOptions:
+#   - discard
+
+
+# Ex: for local storage class creation (e.g. for local testing with csi-hostpath-driver)
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: fast-ssd               # ← this is what you reference in PVC
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "true"   # ← optional: default class
-
-provisioner: pd.csi.storage.gke.io          # ← CSI driver name (very important)
-reclaimPolicy: Delete                        # Delete or Retain
-volumeBindingMode: WaitForFirstConsumer      # Very important in 2024–2025 clusters
-allowVolumeExpansion: true                   # Can we grow PVC later?
-parameters:
-  type: pd-ssd                               # e.g. premium-ssd, standard-hdd, io1, gp3...
-  fsType: ext4
-  disk-type: pd-ssd
-  iopsPerGB: "10"
-mountOptions:
-  - discard
+  name: fast-local           # ← your custom name
+provisioner: rancher.io/local-path   # ← important: this is the provisioner name
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+# No parameters needed in most cases
+# (you can add nodePathMap in ConfigMap if you want custom paths)
 
