@@ -117,3 +117,5 @@ CoreDNS tells the pod        →   "use 10.96.42.17"
           ↓
 your curl reaches the right pod
 ```
+
+![Core DNS architecture](./core-dns-architecture.png)
