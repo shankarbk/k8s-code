@@ -118,4 +118,15 @@ CoreDNS tells the pod        →   "use 10.96.42.17"
 your curl reaches the right pod
 ```
 
+🎯 Important Beginner Concepts
+    ✅ DNS is only for Services (by default)
+
+        You cannot directly call: pod-name
+        Unless you use a Headless Service.
+
+    ✅ Service IP does NOT change
+        Pods may restart and change IP.
+        But Service IP remains stable.
+        DNS always points to Service — not directly to Pods.
+## DNS architecture
 ![Core DNS architecture](./core-dns-architecture.png)
