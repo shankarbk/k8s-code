@@ -128,5 +128,5 @@ your curl reaches the right pod
         Pods may restart and change IP.
         But Service IP remains stable.
         DNS always points to Service — not directly to Pods.
-## DNS architecture
+## Core DNS architecture
 ![Core DNS architecture](./core-dns-architecture.png)
