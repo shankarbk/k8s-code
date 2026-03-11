@@ -2,7 +2,7 @@
 DNS in Kubernetes is the system that allows pods and services to find and talk to each other using names instead of hard-coded IP addresses.   
 - This is the foundation of service discovery inside the cluster.   
 - Since ~Kubernetes 1.13 (2018–2019), the default DNS server is CoreDNS (previously it was kube-dns)   
-- 
+- In same namespace all pods and services can talk to eachother.
 
 - 🧠 The Problem DNS Solves
 
@@ -45,7 +45,7 @@ Core Components of Kubernetes DNS
 
 🧠 How DNS Actually Works in Kubernetes (Step by Step)   
 
-Step 1 : 
+    Step 1 : 
         Request Initiation: A Pod attempts to connect to a service (e.g., curl http://my-service).
 
     Step 2 : 
