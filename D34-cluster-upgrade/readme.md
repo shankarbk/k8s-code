@@ -1,5 +1,5 @@
-⭐ Drain    : Remove all he running pods from the node (evicting the pods/workloads).
-⭐ Cordon   : mark node as unschedulable (not availabe for pods/workloads).
+⭐ Drain    : Remove all he running pods from the node (evicting the pods/workloads).   
+⭐ Cordon   : mark node as unschedulable (not availabe for pods/workloads).  
 ⭐ Uncordon : mark node as schedulable (Availabe for pods/workloads).
 
 ## how to upgrade AWS k8s cluster ?
