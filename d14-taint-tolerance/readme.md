@@ -18,6 +18,14 @@ Think of it like this:
             ❌ No pod can land on node1
             ✅ Only pods with matching toleration can land
 
+🔹How to check whether a Kubernetes (k8s) node is tainted
+
+    kubectl describe node <node-name>
+                
+                OR
+
+    kubectl describe node <node-name> | grep Taints
+
 🔹Why selectors if tolerations already exist?
 
     Because toleration does NOT force placement.
@@ -40,6 +48,15 @@ Think of it like this:
             👉 Pod may run on node2, node3, node4…
 
             Nothing guarantees node1.
+
+🔹 how to check whether the k8s pod is toleration
+        
+        kubectl describe pod <pod-name> -n <namespace>
+
+                        OR
+
+        kubectl get pod <pod-name> -n <namespace> -o jsonpath='{.spec.tolerations}' | jq .
+
 
 🔹What selectors solve
     Selectors answer:   
