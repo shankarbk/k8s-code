@@ -1,0 +1,33 @@
+# grafana-values.yaml – updated
+adminPassword: admin123   # change this!
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki.observability.svc.cluster.local:3100
+      isDefault: true
+      jsonData:
+        maxLines: 1000
+
+persistence:
+  enabled: true
+  size: 2Gi
+
+service:
+  type: NodePort
+  port: 3000
+  targetPort: 3000
+  nodePort: 30300             # optional, for direct access
+
+# Add this block to disable the chown init container
+initChownData:
+  enabled: false              # ← This skips the failing chown
+
+
+# port: 3000 + targetPort: 3000 → The service exposes port 3000 externally/internally, directly mapping to the pod's listening port → simpler port-forwarding.
+# url: http://loki.observability.svc.cluster.local:3100 → Use the full Kubernetes DNS name for reliability (especially in multi-namespace setups).
+# nodePort: 30300 → Makes it easy to access Grafana directly via the Kind node's IP (e.g., http://localhost:30300 if using Kind's default networking).

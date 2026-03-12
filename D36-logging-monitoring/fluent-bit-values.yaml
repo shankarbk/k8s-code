@@ -1,0 +1,59 @@
+# fluent-bit-values.yaml
+config:
+  inputs: |
+    [INPUT]
+        Name tail
+        Tag kube.*
+        Path /var/log/containers/*.log
+        Parser docker
+        DB /fluent-bit/tail/pos.db
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        Refresh_Interval 10
+
+  filters: |
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+
+  outputs: |
+    [OUTPUT]
+        Name loki
+        Match kube.*
+        Host loki.observability.svc.cluster.local
+        Port 3100
+        auto_kubernetes_labels On
+        line_format json
+        remove_keys source,logtag,time
+
+  service: |
+    [SERVICE]
+        Flush        1
+        Log_Level    info
+        Parsers_File parsers.conf
+        HTTP_Server  On
+        HTTP_Listen  0.0.0.0
+        HTTP_Port    2020
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+extraVolumes:
+  - name: tail-db
+    emptyDir: {}                          # ephemeral volume (lost on pod restart, fine for local Kind)
+
+extraVolumeMounts:
+  - name: tail-db
+    mountPath: /fluent-bit/tail
+    readOnly: false
+
+tolerations: []   # usually empty on Kind

@@ -1,0 +1,48 @@
+deploymentMode: SingleBinary          # ← Explicit mode – required in newer charts
+
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+
+# Force-disable scalable/microservices components (overrides any defaults)
+read:
+  enabled: false
+  replicas: 0
+
+write:
+  enabled: false
+  replicas: 0
+
+backend:
+  enabled: false
+  replicas: 0
+
+loki:
+  auth_enabled: false                 # ← Also good to include (from previous multi-tenant fix)
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory:  /var/loki/rules
+  schemaConfig:
+    configs:
+      - from: "2024-01-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+
+monitoring:
+  selfMonitoring:
+    enabled: false
+  lokiCanary:
+    enabled: false
+
+test:
+  enabled: false
