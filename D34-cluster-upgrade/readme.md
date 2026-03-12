@@ -1,4 +1,4 @@
-⭐ Drain    : Remove all he running pods from the node (evicting the pods/workloads).   
+⭐ Drain    : Remove all the running pods from the node (evicting the pods/workloads).   
 ⭐ Cordon   : mark node as unschedulable (not availabe for pods/workloads).  
 ⭐ Uncordon : mark node as schedulable (Availabe for pods/workloads).
 
