@@ -87,6 +87,47 @@ I   n Kubernetes, log collectors typically run in one of two ways:
     Example:
         /var/log/containers/nginx-pod_default_nginx-123.log
 
+✅ Some information of Fluent Bit logging
+    - Fluent Bit keeps logs temporarily in memory or disk buffers before sending them to the log backend.
+    - Its main role is to collect logs from nodes and forward them to a backend like Grafana Loki or Elasticsearch.
+
+    So there are three places involved in Fluent Bit logging.
+        1️⃣ Where Application Logs Exist (Before Fluent Bit Reads Them)
+            - In Kubernetes, containers write logs to: 
+                stdout
+                stderr
+            - The container runtime (containerd/docker) saves them on the node filesystem.
+                Location on node:
+                    /var/log/containers/
+                    /var/log/pods/
+
+            Fluent Bit reads logs from these files.
+
+        2️⃣ Where Fluent Bit Temporarily Buffers Logs
+            - Fluent Bit keeps logs temporarily in memory or disk buffers before sending them to the log backend.
+                Inside Fluent Bit container (Default buffer location): /tmp/fluent-bit/
+                            OR
+                    memory buffer.
+            Purpose:
+                - prevent log loss
+                - retry if backend is unavailable
+
+        3️⃣ Where Logs Are Permanently Stored
+            - Fluent Bit forwards logs to a central logging system.
+            Examples:
+                | Backend       | Storage                     |
+                | ------------- | --------------------------- |
+                | Loki          | object storage / filesystem |
+                | Elasticsearch | ES indexes                  |
+                | S3            | object storage              |
+                | Kafka         | streaming logs              |
+
+            So actual long-term logs are stored in Loki, not Fluent Bit.
+
+    🔹 Prometheus is the monitoring (metrics) side, not the logging side.
+    🔹 Both logs and metrics are visualized in Grafana.
+        ![Logging and Monitoring flow](logging-monitoring-flow.png) 
+
 ## Monitoring
 Monitoring means collecting metrics about cluster health and performance to show the ongoing behavior of the system.
 
@@ -115,13 +156,80 @@ Example metrics:
     Prometheus
             │
             ▼
-    Alertmanager
+    Alertmanager (Optional)
             │
             ▼
     Grafana Dashboard
 
 ✅ Popular Monitoring Stack
     Prometheus + Grafana
+
+    Q: What Prometheus Actually Does ?
+    Ans : Prometheus scrapes metrics from endpoints.
+
+    Q: what is "Exporters" (Ex: node-exporter, kube-state-metrics) ?
+    Ans:
+        In the Prometheus ecosystem, exporters are small services that collect metrics from systems and expose them in a format Prometheus can scrape.
+
+        Prometheus itself does not directly understand OS, Kubernetes, or application internals, so exporters translate those metrics into a Prometheus-compatible /metrics endpoint.
+    
+    Q: What is node-exporter, kube-state-metrics ?
+    Ans: 
+        1️⃣ Node Exporter
+            Prometheus Node Exporter collects hardware and OS metrics from a node.
+            It runs on every Kubernetes node (usually as a DaemonSet).
+            Metrics collected:
+                | Metric Type | Example         |
+                | ----------- | --------------- |
+                | CPU         | CPU utilization |
+                | Memory      | RAM usage       |
+                | Disk        | Disk I/O        |
+                | Network     | Network traffic |
+            
+            Example metric:
+                node_memory_MemAvailable_bytes
+                node_cpu_seconds_total
+                node_disk_read_bytes_total
+
+            Example architecture:
+                Node
+                │
+                ▼
+                node-exporter
+                │
+                ▼
+                http://node-ip:9100/metrics
+                │
+                ▼
+                Prometheus
+
+        2️⃣ kube-state-metrics
+            kube-state-metrics collects Kubernetes object state information.
+            Instead of node hardware metrics, it exposes cluster object metrics.
+            Metrics collected:
+                | Kubernetes Object | Example Metric      |
+                | ----------------- | ------------------- |
+                | Pods              | pod status          |
+                | Deployments       | replicas            |
+                | Nodes             | node conditions     |
+                | Jobs              | job success/failure |
+            
+            Example metric: 
+                kube_pod_container_status_restarts_total
+                kube_deployment_status_replicas
+                kube_node_status_condition
+
+            Example architecture: 
+                Kubernetes API
+                    │
+                    ▼
+                kube-state-metrics
+                    │
+                    ▼
+                /metrics endpoint
+                    │
+                    ▼
+                Prometheus
 
 ⭐ Logging in Kubernetes collects logs from containers and cluster components and stores them in centralized systems like ELK or Loki for troubleshooting.
 
@@ -154,6 +262,8 @@ Example metrics:
                         ▼
                       Grafana
 
+🔹 Both logs and metrics are visualized in Grafana.
+    ![Logging and Monitoring flow ](logging-monitoring-flow.png) 
 
 ⭐ Tips for DevOps Interviews
 
@@ -165,6 +275,27 @@ Example metrics:
 🔹Why DaemonSet is used?
     Answer:
         To run one log collector per node.
+
+✅ Quick Comparison
+
+| Tool       | Purpose                  |
+| ---------- | ------------------------ |
+| Fluent Bit | collect logs             |
+| Loki       | store logs               |
+| Prometheus | collect metrics          |
+| Grafana    | visualize logs + metrics |
+
+Flow diagram: 
+                    Grafana
+                  ▲        ▲
+                  │        │
+               Loki     Prometheus
+                 ▲           ▲
+                 │           │
+            Fluent Bit   Exporters
+                 ▲           ▲
+                 │           │
+               Pod logs   Node/Pod metrics
 
 
 🧠 More information of Logging and Monitoring 
