@@ -4,7 +4,7 @@ singleBinary:
   replicas: 1
   persistence:
     enabled: true
-    size: 5Gi
+    size: 1Gi
 
 # Force-disable scalable/microservices components (overrides any defaults)
 read:
