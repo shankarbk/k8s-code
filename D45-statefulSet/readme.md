@@ -129,7 +129,9 @@ StatefulSet is mainly used for applications like:
         - Stable DNS names
 
     But the DNS works only if headless service exists.without headless service "Stable identity breakes"
-    Here you get the DNS record for individual pod Ips
+    Here you get the DNS record for individual pod Ips.
+
+    Headless service is for Service discovery only, not for Loadbalancing. its tells k8s that "Don't hide pods behind one IP, expose each pod individually"
 
 ✅ When Should You Use StatefulSet?
     Use it when your application needs at least one of these:
