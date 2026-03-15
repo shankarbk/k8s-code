@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-claim
+spec:
+  storageClassName: my-local-storage-sc    # ← or just "local-path" if you didn't create custom one
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi               # works, but consider 1Gi+ for real MySQL testing
