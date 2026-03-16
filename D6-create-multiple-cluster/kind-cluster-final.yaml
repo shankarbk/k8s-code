@@ -1,0 +1,18 @@
+apiVersion: kind.x-k8s.io/v1alpha4 # ← Kind's API version (current stable version as of 2025–2026)
+kind: Cluster                      # ← Declares that this is a Kind cluster definition
+nodes:
+- role: control-plane             # ← Creates **one** node acting as control-plane (master)
+  extraPortMappings:              # ← Very important feature of Kind!
+  - containerPort: 30080          #   Inside the Docker container (node) → port 30080
+    hostPort: 8080                #   On your laptop/host machine → port 8080
+    protocol: TCP                 #   (can also be UDP — TCP is default)
+
+  - containerPort: 30443
+    hostPort: 8443
+    protocol: TCP
+    
+- role: worker
+- role: worker
+networking:
+  disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16
