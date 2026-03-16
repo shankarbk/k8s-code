@@ -16,7 +16,11 @@ nodes:
     protocol: TCP
     
 - role: worker
+  name: worker-node1                 # ← Optional: name of the worker node (default is "kind-worker")
+  
 - role: worker
+  name: worker-node2                   # ← Optional: name of the worker node (default is "kind-worker")
+
 networking:
   disableDefaultCNI: true
   podSubnet: 192.168.0.0/16
