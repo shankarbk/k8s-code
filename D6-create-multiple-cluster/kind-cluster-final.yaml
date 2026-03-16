@@ -20,3 +20,5 @@ networking:
   podSubnet: 192.168.0.0/16
 
   # Refer file : kind-cluster-d26.yaml for more details and instructions to create the cluster with CNI plugin.
+
+  # to create : kind create cluster --config D6-create-multiple-cluster/kind-cluster-final.yaml
