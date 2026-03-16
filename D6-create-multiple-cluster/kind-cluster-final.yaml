@@ -4,16 +4,12 @@ name: cka                 # ← Optional: name of the cluster (default is "kind"
 nodes:
 - role: control-plane             # ← Creates **one** node acting as control-plane (master)
   extraPortMappings:              # ← Very important feature of Kind!
-  - containerPort: 30080          #   Inside the Docker container (node) → port 30080
+  - containerPort: 31437          #   Inside the Docker container (node) → port 31437
     hostPort: 8080                #   On your laptop/host machine → port 8080
     protocol: TCP                 #   (can also be UDP — TCP is default)
 
-  - containerPort: 30443
+  - containerPort: 30478
     hostPort: 8443
-    protocol: TCP
-
-  - containerPort: 30001
-    hostPort: 30001
     protocol: TCP
     
 - role: worker              # ← Optional: name of the worker node (default is "kind-worker")
