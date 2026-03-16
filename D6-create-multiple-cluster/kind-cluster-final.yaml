@@ -1,5 +1,6 @@
 apiVersion: kind.x-k8s.io/v1alpha4 # ← Kind's API version (current stable version as of 2025–2026)
 kind: Cluster                      # ← Declares that this is a Kind cluster definition
+name: cka                 # ← Optional: name of the cluster (default is "kind")
 nodes:
 - role: control-plane             # ← Creates **one** node acting as control-plane (master)
   extraPortMappings:              # ← Very important feature of Kind!
@@ -15,11 +16,8 @@ nodes:
     hostPort: 30001
     protocol: TCP
     
-- role: worker
-  name: worker-node1                 # ← Optional: name of the worker node (default is "kind-worker")
-  
-- role: worker
-  name: worker-node2                   # ← Optional: name of the worker node (default is "kind-worker")
+- role: worker              # ← Optional: name of the worker node (default is "kind-worker")
+- role: worker                # ← Optional: name of the worker node (default is "kind-worker")
 
 networking:
   disableDefaultCNI: true
