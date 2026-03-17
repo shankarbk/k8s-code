@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: official-nginx-ingress
+  annotations:
+    # Use this for the Community version (ingress-nginx)
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+                # OR
+    # F5-NGINX Inc specific annotations start with "nginx.org/"
+    nginx.org/rewrites: "serviceName=my-service rewrite=/"
+    
+    # OR use this for the NGINX Inc. version # F5-specific annotations start with "nginx.org/"
+    # nginx.org/rewrites: "serviceName=my-service rewrite=/"
+spec:
+  ingressClassName: nginx  # This tells K8s to use the NGINX controller
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80

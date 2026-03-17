@@ -1,0 +1,74 @@
+# cafe-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cafe-ingress
+  annotations:        # annotations for F5/NGINX extensions if needed (example)
+    nginx.org/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  # tls:
+  # - hosts:
+  #   - cafe.example.com
+  #   secretName: tls-secret   # create with openssl or cert-manager
+  rules:
+  - host: cafe.example.com
+    http:
+      paths:
+      - path: /tea1
+        pathType: Prefix
+        backend:
+          service:
+            name: tea-1
+            port:
+              number: 80
+      - path: /coffee1
+        pathType: Prefix
+        backend:
+          service:
+            name: coffee-1
+            port:
+              number: 80
+
+# This regex-style path + /$2 rewrite strips /tea-ing (or /coffee-ing) and forwards only the remaining part (usually /) to the backend.
+# Your annotation was almost correct but incomplete
+  # You had nginx.org/rewrite-target: / — that's only useful for exact /something → / rewrites without capturing trailing paths.
+  # For prefix stripping with possible sub-paths, use the (/|$)(.*) pattern + /$2.
+
+
+# If you want no redirects ever (disable nginx's directory slash redirect)
+  # Add this annotation to the Ingress (supported in nginxinc controller):
+  # YAMLannotations:
+  #   nginx.org/rewrite-target: /
+  #   nginx.org/server-snippets: |
+  #     absolute_redirect off;
+
+
+# #Advancd Example of regex path + rewrite:
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: cafe-ingress
+#   annotations:
+#     nginx.org/path-regex: "case_sensitive"
+#     nginx.org/rewrite-target: /$1
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: cafe.example.com
+#     http:
+#       paths:
+#       - path: /tea1/(.*) 
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: tea-1
+#             port:
+#               number: 80
+#       - path: /coffee1/(.*)
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: coffee-1
+#             port:
+#               number: 80

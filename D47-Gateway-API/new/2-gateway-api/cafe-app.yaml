@@ -1,0 +1,62 @@
+# cafe-app.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-2
+  template:
+    metadata:
+      labels:
+        app: coffee-2
+    spec:
+      containers:
+      - name: coffee
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee-2
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: coffee-2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tea-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tea-2
+  template:
+    metadata:
+      labels:
+        app: tea-2
+    spec:
+      containers:
+      - name: tea
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tea-2
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: tea-2

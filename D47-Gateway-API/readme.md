@@ -35,7 +35,24 @@ STEP 2️⃣ — Install NGINX Gateway Fabric via Helm
 
     helm install nginx-gateway oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
     --create-namespace \
-    -n nginx-gateway
+    -n nginx-gateway \
+    --wait
+
+    Why we need this upgrade helm ?
+        run : kubectl get svc nginx-gateway-nginx-gateway-fabric -n nginx-gateway
+
+         your service only has port 443 (HTTPS) exposed, but your Gateway and HTTPRoute are configured for port 80 (HTTP). This is why port-forwarding to 80 or 8080 is failing—the service literally doesn't have a listener for it.
+         
+        By default, the NGINX Gateway Fabric Helm chart might only enable HTTPS if it doesn't see a specific configuration for HTTP, or your Gateway resource hasn't successfully told the controller to open port 80 on the Service.
+
+    helm upgrade nginx-gateway oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+    -n nginx-gateway \
+    --set service.create=true \
+    --set service.type=ClusterIP \
+    --set service.ports[0].port=80 \
+    --set service.ports[0].targetPort=8080 \
+    --set service.ports[0].name=http
+
 
     ✔ Installs:
         Controller
@@ -218,3 +235,23 @@ NGINX Gateway Fabric is currently configured as:
     ✔ Secure by default
     ✔ TLS-first model
     ✔ Production-oriented defaults
+
+
+Code flow : 
+Browser → localhost:30080 → kind node:80 → Gateway Listener → HTTPRoute → Service → Pod
+
+
+(core-ui-nginx-gateway) - Gateway listening on port 80
+                    |
+         HTTPRoute to service listening from "core-ui-nginx-gateway"
+        (core-ui-svc) and points on port 80
+                    |
+                    |
+                    v
+(core-ui-svc) - service exposed on port 80
+                    |
+                    |
+            targetPort: 8080
+                    |
+                    v
+(core-ui-pods) - pods exposed on port 8080
