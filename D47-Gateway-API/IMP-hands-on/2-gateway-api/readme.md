@@ -111,6 +111,8 @@ Step 1: Install NGF + CRDs (exact commands from official docs):
             --set nginx.service.nodePorts[1].listenerPort=443 \
             --set nginx.service.externalTrafficPolicy=Cluster
 
+            
+
                 👉To uninstall and delete the namespace :
                     helm uninstall ngf -n nginx-gateway
                     kubectl delete namespace nginx-gateway --force --grace-period=0
