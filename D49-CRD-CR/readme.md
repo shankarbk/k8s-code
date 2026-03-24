@@ -44,6 +44,7 @@
 
 Code reference : https://github.com/piyushsachdeva/CKA-2024/blob/main/Resources/Day49-CustomResources/README.md
 
+
 Verify the Created Resources:
     # Check the custom resource instance
         kubectl get Foo
@@ -69,11 +70,12 @@ Verify the CRD:
             It just registers a new object type.
             To make it functional → you need a:
 
-    ✅ Controller / Operator
-
-        The controller:
-            Watches CRs
-            Takes action
+            ✅ Controller / Operator
+                The controller:
+                    Watches CRs
+                    Takes action
+                
+                In the code reference : First, we need to Build the controller executable and then run it. The controller will watch for Foo custom resources and create Deployments based on them.
 
 ✅ Why Kubernetes Designed This?
 
