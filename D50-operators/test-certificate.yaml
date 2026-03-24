@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: my-test-cert
+  namespace: default
+spec:
+  secretName: my-test-tls-secret     # The Operator will store the cert here
+  duration: 2160h                    # 90 days
+  renewBefore: 360h                  # Renew 15 days before expiry
+  isCA: false
+  commonName: example.com
+  dnsNames:
+    - example.com
+    - www.example.com
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
