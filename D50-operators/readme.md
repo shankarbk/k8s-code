@@ -244,3 +244,5 @@ What Just Happened in above example ? (Operator in Action)
         - Setting up renewal (it will automatically renew before expiry).
 
     - If anything fails, it reports conditions in the CR status.
+
+KIND : I'm using the KIND cluster, Since kind runs inside Docker, you can't directly access the app using a real domain like example.com. you need extra setup.
