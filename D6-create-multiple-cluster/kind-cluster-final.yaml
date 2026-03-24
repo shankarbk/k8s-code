@@ -4,17 +4,14 @@ name: cka                 # ← Optional: name of the cluster (default is "kind"
 nodes:
 - role: control-plane             # ← Creates **one** node acting as control-plane (master)
   extraPortMappings:              # ← Very important feature of Kind!
-  - containerPort: 31437          #   Inside the Docker container (node) → port 31437
-    hostPort: 8080                #   On your laptop/host machine → port 8080
-    protocol: TCP                 #   (can also be UDP — TCP is default)
-
+  - containerPort: 31437
+    hostPort: 8080
+    protocol: TCP
   - containerPort: 30478
     hostPort: 8443
     protocol: TCP
-    
 - role: worker              # ← Optional: name of the worker node (default is "kind-worker")
 - role: worker                # ← Optional: name of the worker node (default is "kind-worker")
-
 networking:
   disableDefaultCNI: true
   podSubnet: 192.168.0.0/16
@@ -22,3 +19,5 @@ networking:
   # Refer file : kind-cluster-d26.yaml for more details and instructions to create the cluster with CNI plugin.
 
   # to create : kind create cluster --config D6-create-multiple-cluster/kind-cluster-final.yaml
+  # To install Calico CNI plugin, run below command after creating the cluster
+  # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.31.3/manifests/calico.yaml
