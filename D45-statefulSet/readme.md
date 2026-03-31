@@ -269,3 +269,13 @@ StatefulSet is mainly used for applications like:
             🔹 2025–2026 → "How many databases are we running on Kubernetes?" → many teams run most new stateful workloads via operators.
 
             Operators turned StatefulSets from "bare infrastructure" into a foundation that smart controllers build production-grade distributed systems on top of — with far less toil than traditional VM / bare-metal management.
+
+
+💡 Pod Disruption Budget (PDB)
+    ✅ What it does
+        Ensures minimum pods are always available
+
+💳 Scenario
+    Node maintenance happening
+
+    PDB prevents too many pods from going down

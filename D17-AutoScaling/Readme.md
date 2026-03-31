@@ -106,7 +106,7 @@
 
 ✅ 3️⃣ Cluster Autoscaler 🚀 INFRASTRUCTURE LEVEL
 
-     👉 Adds/removes nodes.
+     👉 Adds/removes EC2 nodes when pods cannot be scheduled
 
      Used when:
           ✔ Pods Pending (no capacity)
@@ -119,3 +119,17 @@
      Mental Model :
           Pods Pending → Add node
           Nodes idle → Remove node
+
+* “HPA + CA together ensure full scaling”
+When HPA adds pods but no nodes available → Cluster Autoscaler launches new nodes.
+
+* Scaling in EKS
+“To scale securely without downtime, I use:
+
+- HPA for pod scaling
+- Cluster Autoscaler for node scaling
+- Rolling updates with zero downtime config
+- Pod Disruption Budgets to maintain availability
+- Readiness probes to avoid traffic to unhealthy pods
+- ALB for traffic distribution
+- IRSA and network policies to maintain security during scaling

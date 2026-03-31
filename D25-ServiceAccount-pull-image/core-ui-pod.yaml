@@ -25,8 +25,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+      maxSurge: 1 # You can create 1 extra pod ABOVE desired replicas during update
+      maxUnavailable: 1 # During update, at most 1 pod can be unavailable(Kubernetes ensures: At least (replicas - 1) pods are always running)
 
   selector:
     matchLabels:
@@ -56,3 +56,5 @@ spec:
             port: 80
           initialDelaySeconds: 15
           periodSeconds: 20
+
+        

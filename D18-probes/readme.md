@@ -13,7 +13,7 @@ With probes:
 | Readiness Probe | “Can you serve traffic?” (Checks if the container is ready to serve requests) |  If it fails, the Pod is removed from the Service load balancer until it passes again. Prevents traffic from being sent to an unready app. |
 | Startup Probe   | “Have you finished starting?” (Ensures the application has started successfully) | Used for slow-starting apps. Until this probe succeeds, Kubernetes won’t run liveness or readiness checks.|
 
-✅ 1️⃣ Liveness Probe → Deadlock / Freeze Detector
+✅ 1️⃣ Liveness Probe → Deadlock/Freeze Detector
 
     Purpose:
         👉 Detect broken container that is running but useless
