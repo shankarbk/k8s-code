@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cron-scaledobject-keda
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: nginx-deployment-keda
+  minReplicaCount: 0  # Scale down to zero when outside schedule
+  maxReplicaCount: 5
+  triggers:
+  - type: cron
+    metadata:
+      # Every single hour, KEDA identifies a 05-minute window (from minute :00 to minute :05). During this window, KEDA scales the deployment up to the desired number of replicas (3 in this case).
+      timezone: UTC
+      start: "0 * * * *"  # Ex: At 1:00 PM: KEDA sees the start condition is met. It immediately scales your deployment up to 3 replicas.
+      end: "5 * * * *"   # Ex: Between 1:00 PM and 1:05 PM: It maintains those 3 replicas.
+      desiredReplicas: "3"
+      # Once the window closes (e.g., at 1:06 PM), KEDA stops forcing the count to 3. The deployment will then scale back down to your defined minReplicaCount (usually 0 or 1), unless another trigger is active.
